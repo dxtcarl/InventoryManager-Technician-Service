@@ -1,6 +1,7 @@
 package com.Teltech.inventorymanager.di
 
 import android.content.Context
+import com.Teltech.inventorymanager.BuildConfig
 import com.Teltech.inventorymanager.data.local.dao.AiDao
 import com.Teltech.inventorymanager.data.local.dao.ProductDao
 import com.Teltech.inventorymanager.data.local.dao.RepairDao
@@ -65,7 +66,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAiRepository(aiDao: AiDao): AiRepository = AiRepositoryImpl(
-        apiKey = "AQ.Ab8RN6INi3k5iK0WBFfT6hAbN61b_T7om0NzP6PSPFpTMo1OCg",
+        apiKey = BuildConfig.GEMINI_API_KEY,
         aiDao = aiDao
     )
 }

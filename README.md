@@ -34,6 +34,7 @@ The project follows **Clean Architecture** principles to ensure scalability and 
 
 1. Clone the repository.
 2. Create a `local.properties` file in the root directory.
-3. Add your Gemini API key: `GEMINI_API_KEY=AQ.Ab8RN6INi3k5iK0WBFfT6hAbN61b_T7om0NzP6PSPFpTMo1OCg`.
+3. Add your Gemini API key: `Request to the developer`.
 4. Build and run the app.
 
+---
