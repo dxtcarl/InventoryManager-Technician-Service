@@ -9,6 +9,7 @@ data class ProductEntity(
     val price: Double, val quantity: Int,
     val minStockThreshold: Int = 5,
     val supplier: String = "",
+    val imageUri: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )

@@ -1,6 +1,6 @@
 package com.Teltech.inventorymanager.domain.usecase
 
-import com.yourname.inventorymanager.domain.repository.InventoryRepository
+import com.Teltech.inventorymanager.domain.repository.InventoryRepository
 
 class UpdateStockUseCase(
     private val repository: InventoryRepository

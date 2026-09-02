@@ -4,29 +4,32 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.yourname.inventorymanager.data.local.entity.Product
+import com.Teltech.inventorymanager.data.local.entity.ProductEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
     @Insert
-    suspend fun addProduct(product: Product)
+    suspend fun addProduct(product: ProductEntity): Long
 
     @Update
-    suspend fun updateProduct(product: Product)
+    suspend fun updateProduct(product: ProductEntity)
 
     @Query("DELETE FROM products WHERE id = :id")
     suspend fun deleteProduct(id: Long)
 
     @Query("SELECT * FROM products ORDER BY name ASC")
-    fun getAllProducts(): Flow<List<Product>>
+    fun getAllProducts(): Flow<List<ProductEntity>>
 
     @Query("SELECT * FROM products WHERE id = :id")
-    suspend fun getProductById(id: Long): Product?
+    suspend fun getProductById(id: Long): ProductEntity?
 
     @Query("SELECT * FROM products WHERE name LIKE '%' || :query || '%' OR sku LIKE '%' || :query || '%'")
-    fun searchProducts(query: String): Flow<List<Product>>
+    fun searchProducts(query: String): Flow<List<ProductEntity>>
 
     @Query("SELECT * FROM products WHERE quantity <= minStockThreshold")
-    fun getLowStockProducts(): Flow<List<Product>>
+    fun getLowStockProducts(): Flow<List<ProductEntity>>
+
+    @Query("SELECT DISTINCT category FROM products")
+    fun getAllCategories(): Flow<List<String>>
 }

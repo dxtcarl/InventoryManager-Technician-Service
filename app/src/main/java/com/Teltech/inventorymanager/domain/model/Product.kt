@@ -9,6 +9,7 @@ data class Product(
     val quantity: Int,
     val minStockThreshold: Int = 5,
     val supplier: String = "",
+    val imageUri: String? = null,
     val createdAt: Long = 0,
     val updatedAt: Long = 0
 ) {

@@ -2,10 +2,10 @@ package com.Teltech.inventorymanager.presentation.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yourname.inventorymanager.domain.model.Product
-import com.yourname.inventorymanager.domain.repository.InventoryRepository
-import com.yourname.inventorymanager.domain.usecase.AddProductUseCase
-import com.yourname.inventorymanager.domain.usecase.UpdateStockUseCase
+import com.Teltech.inventorymanager.domain.model.Product
+import com.Teltech.inventorymanager.domain.repository.InventoryRepository
+import com.Teltech.inventorymanager.domain.usecase.AddProductUseCase
+import com.Teltech.inventorymanager.domain.usecase.UpdateStockUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +24,16 @@ class ProductsViewModel @Inject constructor(
 
     val products: StateFlow<List<Product>> = repository.getAllProducts()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val categories: StateFlow<List<String>> = repository.getAllCategories()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    private val _filter = MutableStateFlow("All")
+    val filter = _filter.asStateFlow()
+
+    fun setFilter(filter: String) {
+        _filter.value = filter
+    }
 
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
@@ -49,16 +59,30 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    fun stockIn(productId: Long, qty: Int, note: String = "") {
+    fun stockIn(productId: Long, qty: Int, note: String = "Manual In") {
         viewModelScope.launch {
             updateStockUseCase.stockIn(productId, qty, note)
         }
     }
 
-    fun stockOut(productId: Long, qty: Int, note: String = "") {
+    fun stockOut(productId: Long, qty: Int, note: String = "Manual Out") {
         viewModelScope.launch {
             val result = updateStockUseCase.stockOut(productId, qty, note)
             result.exceptionOrNull()?.let { _message.value = it.message }
+        }
+    }
+
+    fun updateProduct(product: Product) {
+        viewModelScope.launch {
+            repository.updateProduct(product)
+            _message.value = "Product updated!"
+        }
+    }
+
+    fun deleteProduct(productId: Long) {
+        viewModelScope.launch {
+            repository.deleteProduct(productId)
+            _message.value = "Product deleted!"
         }
     }
 

@@ -1,12 +1,17 @@
 package com.Teltech.inventorymanager.di
 
 import android.content.Context
-import com.yourname.inventorymanager.data.local.dao.ProductDao
-import com.yourname.inventorymanager.data.local.dao.TransactionDao
-import com.yourname.inventorymanager.data.local.database.AppDatabase
-import com.yourname.inventorymanager.data.repository.InventoryRepositoryImpl
-import com.yourname.inventorymanager.domain.repository.InventoryRepository
-import com.yourname.inventorymanager.domain.usecase.*
+import com.Teltech.inventorymanager.data.local.dao.AiDao
+import com.Teltech.inventorymanager.data.local.dao.ProductDao
+import com.Teltech.inventorymanager.data.local.dao.RepairDao
+import com.Teltech.inventorymanager.data.local.dao.TransactionDao
+import com.Teltech.inventorymanager.data.local.dao.UserDao
+import com.Teltech.inventorymanager.data.local.database.AppDatabase
+import com.Teltech.inventorymanager.data.repository.AiRepositoryImpl
+import com.Teltech.inventorymanager.domain.repository.AiRepository
+import com.Teltech.inventorymanager.domain.repository.InventoryRepositoryImpl
+import com.Teltech.inventorymanager.domain.repository.InventoryRepository
+import com.Teltech.inventorymanager.domain.usecase.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,11 +36,22 @@ object AppModule {
     fun provideTransactionDao(db: AppDatabase): TransactionDao = db.transactionDao()
 
     @Provides
+    fun provideUserDao(db: AppDatabase): UserDao = db.userDao()
+
+    @Provides
+    fun provideRepairDao(db: AppDatabase): RepairDao = db.repairDao()
+
+    @Provides
+    fun provideAiDao(db: AppDatabase): AiDao = db.aiDao()
+
+    @Provides
     @Singleton
     fun provideInventoryRepository(
         productDao: ProductDao,
-        transactionDao: TransactionDao
-    ): InventoryRepository = InventoryRepositoryImpl(productDao, transactionDao)
+        transactionDao: TransactionDao,
+        userDao: UserDao,
+        repairDao: RepairDao
+    ): InventoryRepository = InventoryRepositoryImpl(productDao, transactionDao, userDao, repairDao)
 
     @Provides
     fun provideAddProductUseCase(repo: InventoryRepository) = AddProductUseCase(repo)
@@ -45,4 +61,11 @@ object AppModule {
 
     @Provides
     fun provideGetDashboardUseCase(repo: InventoryRepository) = GetDashboardDataUseCase(repo)
+
+    @Provides
+    @Singleton
+    fun provideAiRepository(aiDao: AiDao): AiRepository = AiRepositoryImpl(
+        apiKey = "AQ.Ab8RN6INi3k5iK0WBFfT6hAbN61b_T7om0NzP6PSPFpTMo1OCg",
+        aiDao = aiDao
+    )
 }
