@@ -30,16 +30,10 @@ The project follows **Clean Architecture** principles to ensure scalability and 
 - **Domain**: Pure Kotlin layer containing UseCases (e.g., `GetDashboardDataUseCase`) and Model definitions.
 - **Data**: Repository implementations, Room DAOs, and the Gemini AI client.
 
-## 📸 Screenshots
-
-*(Add your screenshots here later to impress your Senior Developer!)*
-
 ## 🛠️ Setup
 
 1. Clone the repository.
 2. Create a `local.properties` file in the root directory.
-3. Add your Gemini API key: `GEMINI_API_KEY=your_key_here`.
+3. Add your Gemini API key: `GEMINI_API_KEY=AQ.Ab8RN6INi3k5iK0WBFfT6hAbN61b_T7om0NzP6PSPFpTMo1OCg`.
 4. Build and run the app.
 
----
-*Built with ❤️ for tech entrepreneurs.*
