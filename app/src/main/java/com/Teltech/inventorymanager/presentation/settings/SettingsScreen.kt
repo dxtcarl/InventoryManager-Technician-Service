@@ -59,7 +59,7 @@ fun SettingsScreen(viewModel: SettingsViewModel = hiltViewModel()) {
                     contentScale = ContentScale.Crop
                 )
             } else {
-                Text("Select Image", fontSize = 40.sp)
+                Text("Select Image",color = Color.Gray, fontSize = 12.sp)
             }
         }
 

@@ -75,7 +75,17 @@ fun ProductsScreen(viewModel: ProductsViewModel = hiltViewModel()) {
     }
 
     Scaffold(
-        containerColor = Color(0xFFF8F9FA)
+        containerColor = Color(0xFFF8F9FA),
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { showAddDialog = true },
+                containerColor = Color(0xFFA594F9),
+                contentColor = Color.White,
+                shape = CircleShape
+            ) {
+                Icon(Icons.Rounded.Add, contentDescription = "Add Product")
+            }
+        }
     ) { padding ->
         Column(
             Modifier
@@ -331,7 +341,7 @@ fun ProductDialog(
             modifier = Modifier
                 .fillMaxWidth(0.95f)
                 .padding(vertical = 16.dp),
-            shape = RoundedCornerShape(28.dp),
+            shape = RoundedCornerShape(24.dp),
             colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0FF)),
             elevation = CardDefaults.cardElevation(defaultElevation = 12.dp)
         ) {
@@ -353,8 +363,15 @@ fun ProductDialog(
                         fontWeight = FontWeight.ExtraBold,
                         color = Color(0xFFA594F9)
                     )
-                    IconButton(onClick = onDismiss) {
-                        Icon(Icons.Rounded.Close, contentDescription = "Close", tint = Color.Gray)
+                    Row {
+                        if (productToEdit != null && onDelete != null) {
+                            IconButton(onClick = onDelete) {
+                                Icon(Icons.Rounded.Delete, contentDescription = "Delete", tint = Color.Red.copy(alpha = 0.7f))
+                            }
+                        }
+                        IconButton(onClick = onDismiss) {
+                            Icon(Icons.Rounded.Close, contentDescription = "Close", tint = Color.Gray)
+                        }
                     }
                 }
 
@@ -374,6 +391,7 @@ fun ProductDialog(
                         AsyncImage(model = imageUri, contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
                     } else {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(Icons.Rounded.AddPhotoAlternate, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(40.dp))
                             Text("Click to upload image", color = Color.Gray, fontSize = 12.sp)
                             Button(
                                 onClick = { launcher.launch("image/*") },
@@ -400,7 +418,7 @@ fun ProductDialog(
                                     label = { Text(existingCat, fontSize = 10.sp) },
                                     shape = RoundedCornerShape(8.dp),
                                     colors = AssistChipDefaults.assistChipColors(
-                                        containerColor = Color(0xFFF3F0FF),
+                                        containerColor = Color.White,
                                         labelColor = Color(0xFFA594F9)
                                     ),
                                     border = null
